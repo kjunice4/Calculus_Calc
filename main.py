@@ -8,7 +8,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy
 from sympy import *
-import mpmath
 
 #Opening Page
 Builder.load_string("""
@@ -99,7 +98,7 @@ Builder.load_string("""
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "Calculus Calculator"
+                text: "Derivatives Calculator"
                 
             BoxLayout:
                 cols: 2
@@ -266,7 +265,7 @@ class Calculus_Calculator(Screen):
                         print("Answer:",func)
                     except Exception:
                         print("func:",func)
-                        func = func.replace("x","*x").replace("y","*y").replace("z","*z")
+                        func = func.replace("x","*x").replace("y","*y").replace("z","*z").replace("+*","+").replace("-*","-")
                         print("func fixed:",func)
                         func = sympy.diff(func,respect)
                         print("Answer:",func)
