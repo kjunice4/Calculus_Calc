@@ -6,7 +6,8 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
-import sympy as sym
+import sympy
+from sympy import *
 
 #Opening Page
 Builder.load_string("""
@@ -164,20 +165,40 @@ Builder.load_string("""
                 height: 200
                 padding: 10  
                 input_filter: lambda text, from_undo: text[:1 - len(respect.text)]
-            
-            Button:
-                id: steps
-                text: "Derivative"   
-                font_size: 75
+                
+            BoxLayout:
+                cols: 2
+                padding: 10
+                spacing: 10
+                size_hint: 1, None
+                width: 300
                 size_hint_y: None
-                background_color: 0, 1 , 0 , 1
-                height: 200
-                padding: 10, 10
-                on_release:
-                    list_of_steps.clear_widgets()
-                    Calculus_Calculator.derive(entry.text + "&" + prime.text + "$" + respect.text)
+                height: self.minimum_height
+                
+                Button:
+                    id: steps
+                    text: "Derivative"   
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 0, 1 , 0 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release:
+                        list_of_steps.clear_widgets()
+                        Calculus_Calculator.derive(entry.text + "&" + prime.text + "$" + respect.text)
+                        
+                Button:
+                    id: steps
+                    text: "Integral"   
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 0, 0 , 1 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release:
+                        list_of_steps.clear_widgets()
+                        Calculus_Calculator.integrate(entry.text + "&" + prime.text + "$" + respect.text)
                     
-                          
             GridLayout:
                 id: list_of_steps
                 cols: 1
@@ -207,6 +228,8 @@ class Calculus_Calculator(Screen):
         layout = GridLayout(cols=1,size_hint_y= None)
         self.ids.list_of_steps.add_widget(layout)
         self.layouts.append(layout)
+        print("~~~~~~~~~~~~~~~~~~~~")
+        print("DERIVATE")
         
         try:
             print("Entry",entry)
@@ -224,6 +247,10 @@ class Calculus_Calculator(Screen):
             respect = entry[dollar + 1:]
             print("respect:",respect)
             
+            x = sympy.Symbol(respect)
+            y = sympy.Symbol(respect)
+            z = sympy.Symbol(respect)
+            
             if int(prime) > 0 and str(respect) != "":
                 self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
                 self.ids.list_of_steps.add_widget(Label(text= "Derive " + str(prime) + " time(s) with respect to " + str(respect),font_size = 60, size_hint_y= None, height=100))
@@ -233,20 +260,20 @@ class Calculus_Calculator(Screen):
                 while i - 1 < int(prime):
                     try:
                         print("func:",func)
-                        func = sym.diff(func,respect)
+                        func = sympy.diff(func,respect)
                         print("Answer:",func)
                     except Exception:
                         print("func:",func)
                         func = func.replace("x","*x").replace("y","*y").replace("z","*z")
                         print("func fixed:",func)
-                        func = sym.diff(func,respect)
+                        func = sympy.diff(func,respect)
                         print("Answer:",func)
-                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(x) = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
             else:
-                if prime == 0:
+                if int(prime) == 0:
                     self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 60, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                 elif respect == "":
@@ -258,6 +285,86 @@ class Calculus_Calculator(Screen):
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
             self.layouts.append(layout)
             
+            
+    layouts = []
+    def integrate(self,entry):
+        layout = GridLayout(cols=1,size_hint_y= None)
+        self.ids.list_of_steps.add_widget(layout)
+        self.layouts.append(layout)
+        print("~~~~~~~~~~~~~~~~~~~~")
+        print("INTEGRATE")
+        
+        try:
+            print("Entry",entry)
+            amp = entry.find("&")
+            dollar = entry.find("$")
+            
+            func = entry[:amp].replace("^","**")
+            print("func",func)       
+            
+            prime = entry[amp+1:dollar]
+            print("Prime:",prime)
+            if prime == "":
+                prime = 0
+            
+            respect = entry[dollar + 1:]
+            print("respect:",respect)
+            
+            x = sympy.Symbol("x")
+            y = sympy.Symbol("y")
+            z = sympy.Symbol("z")
+            
+            if int(prime) > 0 and str(respect) != "":
+                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Integrate " + str(prime) + " time(s) with respect to " + str(respect),font_size = 60, size_hint_y= None, height=100))
+                self.layouts.append(layout)
+                
+                i = 1
+                while i - 1 < int(prime):
+                    try:
+                        print("func:",func)
+                        if respect == "x":
+                            func = str(sympy.integrate(func,x))
+                            print("Answer:",func)
+                        elif respect == "y":
+                            func = str(sympy.integrate(func,y))
+                            print("Answer:",func)
+                        elif respect == "z":
+                            func = str(sympy.integrate(func,z))
+                            print("Answer:",func)
+                        
+                    except Exception:
+                        print("func,exception:",func)
+                        func = str(func).replace("x","*x").replace("y","*y").replace("z","*z")
+                        print("func fixed:",func)
+                        if respect == "x":
+                            func = str(sympy.integrate(func,x))
+                            print("Answer:",func)
+                        elif respect == "y":
+                            func = str(sympy.integrate(func,y))
+                            print("Answer:",func)
+                        elif respect == "z":
+                            func = str(sympy.integrate(func,z))
+                            print("Answer:",func)
+                        print("Answer:",str(func))
+                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                    i = i + 1
+                    
+            else:
+                if int(prime) == 0:
+                    self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 60, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                elif respect == "":
+                    self.ids.list_of_steps.add_widget(Label(text= "Respect must be entered" ,font_size = 60, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                    
+        except Exception:
+            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
+            self.layouts.append(layout)
+        
+        
+        
 class Homepage(Screen):
     pass            
 
