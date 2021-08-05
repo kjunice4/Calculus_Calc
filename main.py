@@ -7,6 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy
+from sympy import *
 
 #Opening Page
 Builder.load_string("""
@@ -28,7 +29,7 @@ Builder.load_string("""
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
-            text: "KSquared Derivatives Calculator"
+            text: "KSquared Calculus Calculator"
             on_release:
                 app.root.current = "Menu"
                 root.manager.transition.direction = "left" 
@@ -56,7 +57,7 @@ Builder.load_string("""
             background_color: 0, 0 , 1, 1
             size_hint_y: None
             height: 200
-            text: "Derivatives Calculator"
+            text: "Calculus Calculator"
             on_release:
                 app.root.current = "Calculus_Calculator"
                 root.manager.transition.direction = "left" 
@@ -97,7 +98,7 @@ Builder.load_string("""
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "Derivatives Calculator"
+                text: "Calculus Calculator"
                 
             BoxLayout:
                 cols: 2
@@ -147,7 +148,7 @@ Builder.load_string("""
             TextInput:
                 id: prime
                 text: prime.text
-                hint_text: "# of times to derive"
+                hint_text: "# of times to derive or integrate"
                 multiline: False
                 font_size: 125
                 size_hint_y: None
@@ -186,6 +187,17 @@ Builder.load_string("""
                         list_of_steps.clear_widgets()
                         Calculus_Calculator.derive(entry.text + "&" + prime.text + "$" + respect.text)
                         
+                Button:
+                    id: steps
+                    text: "Integrate"   
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 0, 0 , 1 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release:
+                        list_of_steps.clear_widgets()
+                        Calculus_Calculator.integrate(entry.text + "&" + prime.text + "$" + respect.text)
                     
             GridLayout:
                 id: list_of_steps
@@ -194,18 +206,6 @@ Builder.load_string("""
                 height: self.minimum_height   
 
 """)
-
-"""Button:
-        id: steps
-        text: "Integral"   
-        font_size: 75
-        size_hint_y: None
-        background_color: 0, 0 , 1 , 1
-        height: 200
-        padding: 10, 10
-        on_release:
-            list_of_steps.clear_widgets()
-            Calculus_Calculator.integrate(entry.text + "&" + prime.text + "$" + respect.text)"""
 
 class Calculus_Calculator(Screen):
     sm = ScreenManager()
@@ -264,7 +264,7 @@ class Calculus_Calculator(Screen):
                         print("Answer:",func)
                     except Exception:
                         print("func:",func)
-                        func = func.replace("x","*x").replace("y","*y").replace("z","*z").replace("+*","+").replace("-*","-")
+                        func = func.replace("x","*x").replace("y","*y").replace("z","*z")
                         print("func fixed:",func)
                         func = sympy.diff(func,respect)
                         print("Answer:",func)
@@ -287,7 +287,7 @@ class Calculus_Calculator(Screen):
             
             
     layouts = []
-"""    def integrate(self,entry):
+    def integrate(self,entry):
         layout = GridLayout(cols=1,size_hint_y= None)
         self.ids.list_of_steps.add_widget(layout)
         self.layouts.append(layout)
@@ -347,7 +347,7 @@ class Calculus_Calculator(Screen):
                             func = str(sympy.integrate(func,z))
                             print("Answer:",func)
                         print("Answer:",str(func))
-                    self.ids.list_of_steps.add_widget(Label(text= "f" + "" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
@@ -363,8 +363,8 @@ class Calculus_Calculator(Screen):
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
             self.layouts.append(layout)
         
-"""
-           
+        
+        
 class Homepage(Screen):
     pass            
 
