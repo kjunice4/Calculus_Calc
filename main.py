@@ -6,8 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
-import sympy
-from sympy import *
+import sympy as sym
 
 #Opening Page
 Builder.load_string("""
@@ -247,9 +246,9 @@ class Calculus_Calculator(Screen):
             respect = entry[dollar + 1:]
             print("respect:",respect)
             
-            x = sympy.Symbol(respect)
-            y = sympy.Symbol(respect)
-            z = sympy.Symbol(respect)
+            x = sym.Symbol(respect)
+            y = sym.Symbol(respect)
+            z = sym.Symbol(respect)
             
             if int(prime) > 0 and str(respect) != "":
                 self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
@@ -260,13 +259,13 @@ class Calculus_Calculator(Screen):
                 while i - 1 < int(prime):
                     try:
                         print("func:",func)
-                        func = sympy.diff(func,respect)
+                        func = sym.diff(func,respect)
                         print("Answer:",func)
                     except Exception:
                         print("func:",func)
                         func = func.replace("x","*x").replace("y","*y").replace("z","*z")
                         print("func fixed:",func)
-                        func = sympy.diff(func,respect)
+                        func = sym.diff(func,respect)
                         print("Answer:",func)
                     self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
                     self.layouts.append(layout)
@@ -310,9 +309,9 @@ class Calculus_Calculator(Screen):
             respect = entry[dollar + 1:]
             print("respect:",respect)
             
-            x = sympy.Symbol("x")
-            y = sympy.Symbol("y")
-            z = sympy.Symbol("z")
+            x = sym.Symbol("x")
+            y = sym.Symbol("y")
+            z = sym.Symbol("z")
             
             if int(prime) > 0 and str(respect) != "":
                 self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
@@ -324,13 +323,13 @@ class Calculus_Calculator(Screen):
                     try:
                         print("func:",func)
                         if respect == "x":
-                            func = str(sympy.integrate(func,x))
+                            func = str(sym.integrate(func,x))
                             print("Answer:",func)
                         elif respect == "y":
-                            func = str(sympy.integrate(func,y))
+                            func = str(sym.integrate(func,y))
                             print("Answer:",func)
                         elif respect == "z":
-                            func = str(sympy.integrate(func,z))
+                            func = str(sym.integrate(func,z))
                             print("Answer:",func)
                         
                     except Exception:
@@ -338,13 +337,13 @@ class Calculus_Calculator(Screen):
                         func = str(func).replace("x","*x").replace("y","*y").replace("z","*z")
                         print("func fixed:",func)
                         if respect == "x":
-                            func = str(sympy.integrate(func,x))
+                            func = str(sym.integrate(func,x))
                             print("Answer:",func)
                         elif respect == "y":
-                            func = str(sympy.integrate(func,y))
+                            func = str(sym.integrate(func,y))
                             print("Answer:",func)
                         elif respect == "z":
-                            func = str(sympy.integrate(func,z))
+                            func = str(sym.integrate(func,z))
                             print("Answer:",func)
                         print("Answer:",str(func))
                     self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
