@@ -7,6 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy as sym
+from sympy import Symbol, diff, integrate
 
 #Opening Page
 Builder.load_string("""
