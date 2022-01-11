@@ -189,7 +189,7 @@ Builder.load_string("""
                         
                 Button:
                     id: steps
-                    text: "Integrate"   
+                    text: "Integral"   
                     font_size: 75
                     size_hint_y: None
                     background_color: 0, 0 , 1 , 1
@@ -197,7 +197,7 @@ Builder.load_string("""
                     padding: 10, 10
                     on_release:
                         list_of_steps.clear_widgets()
-                        Calculus_Calculator.integrate(entry.text + "&" + prime.text + "$" + respect.text)
+                        Calculus_Calculator.Integrate(entry.text + "&" + prime.text + "$" + respect.text)
                     
             GridLayout:
                 id: list_of_steps
@@ -287,7 +287,7 @@ class Calculus_Calculator(Screen):
             
             
     layouts = []
-    def integrate(self,entry):
+    def Integrate(self,entry):
         layout = GridLayout(cols=1,size_hint_y= None)
         self.ids.list_of_steps.add_widget(layout)
         self.layouts.append(layout)
@@ -325,13 +325,13 @@ class Calculus_Calculator(Screen):
                         print("func:",func)
                         if respect == "x":
                             func = str(sym.integrate(func,x))
-                            print("Answer:",func)
+                            print("Answer x:",func)
                         elif respect == "y":
                             func = str(sym.integrate(func,y))
-                            print("Answer:",func)
+                            print("Answer y:",func)
                         elif respect == "z":
                             func = str(sym.integrate(func,z))
-                            print("Answer:",func)
+                            print("Answer z:",func)
                         
                     except Exception:
                         print("func,exception:",func)
@@ -339,15 +339,37 @@ class Calculus_Calculator(Screen):
                         print("func fixed:",func)
                         if respect == "x":
                             func = str(sym.integrate(func,x))
-                            print("Answer:",func)
+                            print("Answer except x:",func)
                         elif respect == "y":
                             func = str(sym.integrate(func,y))
-                            print("Answer:",func)
+                            print("Answer except y:",func)
                         elif respect == "z":
                             func = str(sym.integrate(func,z))
-                            print("Answer:",func)
+                            print("Answer except z:",func)
                         print("Answer:",str(func))
-                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                        
+                    print()
+                    print("answer before () edit: ",func)
+                    func_list = str(func).split(" ")
+                    print("func_list",func_list)
+                    print()
+                    
+                    func_display = ""
+                    j = 0
+                    while j < len(func_list):
+                        if func_list[j].count("/") == 1:
+                            print("Found div sign in:", func_list[j])
+                            div_sign_index = func_list[j].find("/")
+                            print("index of div sign:",div_sign_index)
+                            func_edited = "(" + func_list[j][:div_sign_index] + ")" + func_list[j][div_sign_index:]
+                            print("edited:",func_edited)
+                            func_display = func_display + " " + func_edited
+                        else:
+                            func_display = func_display + " " + func_list[j]
+                        j = j + 1
+                    print("func_display",func_display)
+                    
+                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
