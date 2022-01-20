@@ -34,7 +34,7 @@ Builder.load_string("""
                 app.root.current = "Menu"
                 root.manager.transition.direction = "left"         
         Button:
-            font_size: 60
+            font_size: 50
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
@@ -261,8 +261,8 @@ class Calculus_Calculator(Screen):
             z = sym.Symbol(respect)
             
             if int(prime) > 0 and str(respect) != "":
-                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "Derive " + str(prime) + " time(s) with respect to " + str(respect),font_size = 60, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Derive " + str(prime) + " time(s) with respect to " + str(respect),font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 
                 i = 1
@@ -277,21 +277,21 @@ class Calculus_Calculator(Screen):
                         print("func fixed:",func)
                         func = sym.diff(func,respect)
                         print("Answer:",func)
-                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
             else:
                 if int(prime) == 0:
-                    self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                 elif respect == "":
-                    self.ids.list_of_steps.add_widget(Label(text= "Respect must be entered" ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "Respect must be entered" ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     
                     
         except Exception:
-            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
             self.layouts.append(layout)
             
             
@@ -324,8 +324,8 @@ class Calculus_Calculator(Screen):
             z = sym.Symbol("z")
             
             if int(prime) > 0 and str(respect) != "":
-                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "Integrate " + str(prime) + " time(s) with respect to " + str(respect),font_size = 60, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Integrate " + str(prime) + " time(s) with respect to " + str(respect),font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 
                 i = 1
@@ -378,20 +378,20 @@ class Calculus_Calculator(Screen):
                         j = j + 1
                     print("func_display",func_display)
                     
-                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
             else:
                 if int(prime) == 0:
-                    self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                 elif respect == "":
-                    self.ids.list_of_steps.add_widget(Label(text= "Respect must be entered" ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "Respect must be entered" ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     
         except Exception:
-            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
             self.layouts.append(layout)
         
         
