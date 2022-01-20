@@ -157,7 +157,7 @@ Builder.load_string("""
             TextInput:
                 id: prime
                 text: prime.text
-                hint_text: "# of times to derive or integrate"
+                hint_text: "# of times to derive, integrate"
                 multiline: False
                 font_size: 75
                 size_hint_y: None
