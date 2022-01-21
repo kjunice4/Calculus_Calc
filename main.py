@@ -63,7 +63,7 @@ Builder.load_string("""
                 
         Button:
             font_size: 75
-            background_color: 0, 0 , 1, 1
+            background_color: 0, 0, 1, 1
             size_hint_y: None
             height: 200
             text: "Calculus Calculator"
@@ -73,7 +73,7 @@ Builder.load_string("""
                 
         Button:
             font_size: 75
-            background_color: 0, 1 , 0 , 1
+            background_color: 0, 0, 0 , 1
             size_hint_y: None
             height: 200
             text: "Visit KSquared,LLC"
@@ -330,8 +330,8 @@ class Calculus_Calculator(Screen):
             z = sym.Symbol("z")
             
             if int(prime) > 0 and str(respect) != "":
-                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "Integrate " + str(prime) + " time(s) with respect to " + str(respect),font_size = 60, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Integrate " + str(prime) + " time(s) with respect to " + str(respect),font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 
                 i = 1
@@ -390,7 +390,7 @@ class Calculus_Calculator(Screen):
                         j = j + 1
                     print("func_display",func_display)
                     
-                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
