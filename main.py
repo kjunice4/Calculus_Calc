@@ -261,8 +261,8 @@ class Calculus_Calculator(Screen):
             z = sym.Symbol(respect)
             
             if int(prime) > 0 and str(respect) != "":
-                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 60, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "Derive " + str(prime) + " time(s) with respect to " + str(respect),font_size = 60, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "f(" + respect + ") = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z").replace("+"," + ").replace("-"," - ") ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Derive " + str(prime) + " time(s) with respect to " + str(respect),font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 
                 i = 1
@@ -283,7 +283,7 @@ class Calculus_Calculator(Screen):
                         
                         func = sym.diff(func,respect)
                         print("Answer:",func)
-                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * i + "(" + respect + ") = " + str(func).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
                     self.layouts.append(layout)
                     i = i + 1
                     
@@ -330,7 +330,7 @@ class Calculus_Calculator(Screen):
             z = sym.Symbol("z")
             
             if int(prime) > 0 and str(respect) != "":
-                self.ids.list_of_steps.add_widget(Label(text= "Entry = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z") ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "f(" + respect + ") = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z").replace("-"," - ").replace("+"," + ") ,font_size = 50, size_hint_y= None, height=100))
                 self.ids.list_of_steps.add_widget(Label(text= "Integrate " + str(prime) + " time(s) with respect to " + str(respect),font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 
@@ -389,9 +389,29 @@ class Calculus_Calculator(Screen):
                             func_display = func_display + " " + func_list[j]
                         j = j + 1
                     print("func_display",func_display)
+                    print()
+                    func_display_list = func_display.strip().split(" ")
+                    print("func_display_list",func_display_list)
                     
-                    self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
-                    self.layouts.append(layout)
+                    if len(func_display_list) > 4:
+                        
+                        func_display_front_slice = str(func_display_list[:4]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_front_slice",func_display_front_slice)
+                        
+                        func_display_back_slice = str(func_display_list[5:]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_back_slice",func_display_back_slice)
+                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display_front_slice).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_back_slice).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
+                        self.layouts.append(layout)
+                        
+                    else:
+                        self.ids.list_of_steps.add_widget(Label(text= "∫" * i + "f(" + respect + ") = " + str(func_display).replace("**","^").replace("*","") ,font_size = 50, size_hint_y= None, height=100))
+                        self.layouts.append(layout)
+                        
+                    
+                    
+                    
                     i = i + 1
                     
             else:
