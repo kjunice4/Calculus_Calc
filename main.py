@@ -8,6 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy as sym
 from sympy import Symbol, diff, integrate
+from colorama import Back, Style
 
 #Opening Page
 Builder.load_string("""
@@ -519,7 +520,7 @@ class Integration(Screen):
                 
                 print("_________________________________________")
                 
-                i = 0 #     2sin(2x)^2+3x^3+e^x-2ln(3x)
+                i = 0
                 while i < int(prime):
                     
                     print("Starting",i+1,"integrate")
@@ -577,6 +578,8 @@ class Integration(Screen):
                     if func[-1] == "+" or func[-1] == "-":
                         func = func[:-1]
                     
+                    func = func.replace("+"," + ").replace("-"," - ")
+                    print("func before integration",func)
                     if respect == "x":
                         func = str(sym.integrate(func,x))
                         print("Answer x:",func)
@@ -590,6 +593,15 @@ class Integration(Screen):
                     print()
                     func_display_list = str(func).strip().split(" ")
                     print("func_display_list",func_display_list)
+                    
+                    u = 0
+                    while u < len(func_display_list):
+                        if func_display_list[u].count("/") > 0:
+                            div_index = func_display_list[u].find("/")
+                            print("Found div sign at: ",div_index)
+                            func_display_list[u] = "(" + func_display_list[u][:div_index] + ")" + func_display_list[u][div_index:]
+                            print("New func_display",func_display_list[u])
+                        u = u + 1
                     
                     j = 0
                     if e_list != []:
@@ -642,7 +654,7 @@ class Integration(Screen):
                     func = str(func_display_list).replace("**","^").replace("[","").replace("]","").replace("'","").replace(",","").replace("+-","-").replace("+"," + ").replace("-"," - ")
                     print("Func before loop",func)
                     i = i + 1
-                    
+                
             else:
                 if int(prime) == 0:
                     self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 60, size_hint_y= None, height=100))
