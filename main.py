@@ -110,7 +110,8 @@ Builder.load_string("""
             Image:
                 source: 'KSquared_QR_code.png'
                 size_hint_y: None
-                height: 300
+                height: 1000
+                width: 1000
                 
 """)
 
