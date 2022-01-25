@@ -8,7 +8,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy as sym
 from sympy import Symbol, diff, integrate
-from colorama import Back, Style
 
 #Opening Page
 Builder.load_string("""
