@@ -108,7 +108,7 @@ Builder.load_string("""
                 text: "Share KSquared-math,LLC ©"
                     
             Image:
-                source: 'KSquared_QR_Code.png'
+                source: 'KSquared_QR_code.png'
                 size_hint_y: None
                 height: 300
                 
