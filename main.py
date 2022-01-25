@@ -719,8 +719,6 @@ class Integration(Screen):
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
             self.layouts.append(layout)        
 
-
-        
 class Homepage(Screen):
     pass            
 
