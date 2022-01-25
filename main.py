@@ -107,20 +107,10 @@ Builder.load_string("""
                 padding: 10, 10
                 text: "Share KSquared-math,LLC ©"
                     
-            BoxLayout:
-                cols: 1
-                padding: 10
-                spacing: 10
-                size_hint: 1, None
-                width: 300
+            Image:
+                source: 'KSquared_QR_Code.png'
                 size_hint_y: None
-                height: self.minimum_height
-         
-                Image:
-                    source: 'KSquared_QR_Code.png'
-                    size_hint_y: None
-                    height: 300
-                    width: 300
+                height: 300
                 
 """)
 
@@ -719,6 +709,8 @@ class Integration(Screen):
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
             self.layouts.append(layout)        
 
+
+        
 class Homepage(Screen):
     pass            
 
