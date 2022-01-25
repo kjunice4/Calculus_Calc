@@ -94,7 +94,6 @@ Builder.load_string("""
                     
             Button:
                 font_size: 75
-                background_color: 0, 0, 0 , 1
                 size_hint_y: None
                 height: 200
                 text: "Visit KSquared-math,LLC ©"
