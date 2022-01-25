@@ -108,11 +108,20 @@ Builder.load_string("""
                 padding: 10, 10
                 text: "Share KSquared-math,LLC ©"
                     
-            Image:
+            BoxLayout:
+                cols: 1
+                padding: 10
+                spacing: 10
+                size_hint: 1, None
+                width: 300
                 size_hint_y: None
-                source: "KSquared_QR_code.png"
-                width: 200
-                height: 200
+                height: self.minimum_height
+         
+                Image:
+                    source: 'KSquared_QR_Code.png'
+                    size_hint_y: None
+                    height: 300
+                    width: 300
                 
 """)
 
