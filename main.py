@@ -52,63 +52,68 @@ Builder.load_string("""
     id: Menu
     name: "Menu"
     
-    GridLayout:
-        cols: 1
-        padding:10
-        spacing:10
-        size_hint: 1, None
-        width:200
-        height: self.minimum_height
-        
-        Label:
-            font_size: 75
-            size_hint_y: None
-            height: 200
-            padding: 10, 10
-            text: "Menu"
-                
-        Button:
-            font_size: 75
-            background_color: 0, 0, 1, 1
-            size_hint_y: None
-            height: 200
-            text: "Derivatives Calculator"
-            on_release:
-                app.root.current = "Derivatives"
-                root.manager.transition.direction = "left" 
-                
-        Button:
-            font_size: 75
-            background_color: 0, 1, 1, 1
-            size_hint_y: None
-            height: 200
-            text: "Integration Calculator"
-            on_release:
-                app.root.current = "Integration"
-                root.manager.transition.direction = "left"
-                
-        Button:
-            font_size: 75
-            size_hint_y: None
-            height: 200
-            text: "Visit KSquared-math,LLC ©"
-            on_release:
-                import webbrowser
-                webbrowser.open('https://kevinjunice.wixsite.com/ksquaredllc/subscribe')
-                
-        Label:
-            font_size: 75
-            size_hint_y: None
-            height: 200
-            padding: 10, 10
-            text: "Share KSquared-math,LLC ©"
-                
-        AsyncImage:
-            size_hint_y: None
-            source: "KSquared_QR_code.png"
-            width: 300
-            height: 300
+    ScrollView:
+        name: "Scroll"
+        do_scroll_x: False
+        do_scroll_y: True
+    
+        GridLayout:
+            cols: 1
+            padding:10
+            spacing:10
+            size_hint: 1, None
+            width:200
+            height: self.minimum_height
             
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Menu"
+                    
+            Button:
+                font_size: 75
+                background_color: 0, 0, 1, 1
+                size_hint_y: None
+                height: 200
+                text: "Derivatives Calculator"
+                on_release:
+                    app.root.current = "Derivatives"
+                    root.manager.transition.direction = "left" 
+                    
+            Button:
+                font_size: 75
+                background_color: 0, 1, 1, 1
+                size_hint_y: None
+                height: 200
+                text: "Integration Calculator"
+                on_release:
+                    app.root.current = "Integration"
+                    root.manager.transition.direction = "left"
+                    
+            Button:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                text: "Visit KSquared-math,LLC ©"
+                on_release:
+                    import webbrowser
+                    webbrowser.open('https://kevinjunice.wixsite.com/ksquaredllc/subscribe')
+                    
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Share KSquared-math,LLC ©"
+                    
+            Image:
+                size_hint_y: None
+                source: "KSquared_QR_code.png"
+                width: 200
+                height: 200
+                
 """)
 
 #Derivatives Calculator
