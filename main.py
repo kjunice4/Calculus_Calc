@@ -8,6 +8,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy as sym
 from sympy import Symbol, diff, integrate
+from colorama import Back, Style
 
 #Opening Page
 Builder.load_string("""
@@ -51,46 +52,68 @@ Builder.load_string("""
     id: Menu
     name: "Menu"
     
-    GridLayout:
-        cols: 1
-        
-        Label:
-            font_size: 75
-            size_hint_y: None
-            height: 200
-            padding: 10, 10
-            text: "Menu"
-                
-        Button:
-            font_size: 75
-            background_color: 0, 0, 1, 1
-            size_hint_y: None
-            height: 200
-            text: "Derivatives Calculator"
-            on_release:
-                app.root.current = "Derivatives"
-                root.manager.transition.direction = "left" 
-                
-        Button:
-            font_size: 75
-            background_color: 0, 1, 1, 1
-            size_hint_y: None
-            height: 200
-            text: "Integration Calculator"
-            on_release:
-                app.root.current = "Integration"
-                root.manager.transition.direction = "left"
-                
-        Button:
-            font_size: 75
-            background_color: 0, 0, 0 , 1
-            size_hint_y: None
-            height: 200
-            text: "Visit KSquared,LLC"
-            on_release:
-                import webbrowser
-                webbrowser.open('https://kivy.org/')
-
+    ScrollView:
+        name: "Scroll"
+        do_scroll_x: False
+        do_scroll_y: True
+    
+        GridLayout:
+            cols: 1
+            padding:10
+            spacing:10
+            size_hint: 1, None
+            width:200
+            height: self.minimum_height
+            
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Menu"
+                    
+            Button:
+                font_size: 75
+                background_color: 0, 0, 1, 1
+                size_hint_y: None
+                height: 200
+                text: "Derivatives Calculator"
+                on_release:
+                    app.root.current = "Derivatives"
+                    root.manager.transition.direction = "left" 
+                    
+            Button:
+                font_size: 75
+                background_color: 0, 1, 1, 1
+                size_hint_y: None
+                height: 200
+                text: "Integration Calculator"
+                on_release:
+                    app.root.current = "Integration"
+                    root.manager.transition.direction = "left"
+                    
+            Button:
+                font_size: 75
+                background_color: 0, 0, 0 , 1
+                size_hint_y: None
+                height: 200
+                text: "Visit KSquared-math,LLC ©"
+                on_release:
+                    import webbrowser
+                    webbrowser.open('https://kevinjunice.wixsite.com/ksquaredllc/subscribe')
+                    
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Share KSquared-math,LLC ©"
+                    
+            Image:
+                height: 200
+                padding: 10, 10
+                source: "KSquared_QR_code.png"
+                size_hint_y: None
 """)
 
 #Derivatives Calculator
@@ -519,140 +542,162 @@ class Integration(Screen):
                 
                 print("_________________________________________")
                 
-                i = 0
-                while i < int(prime):
+                func = func.replace(" ","").replace("+"," + ").replace("-"," - ").replace("^ -","^-").replace("^ +","^+")
+                print("func",func)
+                
+                k = 0
+                while k < int(prime):
+                    if func.count("(") > 0 and func.count(")") > 0:
+                        if func.count("(") == func.count(")"):
+                            print("Parenthesis Found")
+                            i = 0
+                            while i < len(func):
+                                if func[i] == ")":
+                                    right_par_index = i
+                                    print("right_par_index",right_par_index)
+                                    left_par_index = func[:i].rfind("(")
+                                    print("left_par_index",left_par_index)
+                                    range_pars = func[left_par_index:right_par_index+1]
+                                    print(range_pars)
+                                    cleaned = range_pars.replace(" ","")
+                                    print("cleaned",cleaned)
+                                    func = func[:left_par_index] + cleaned + func[right_par_index+1:] 
+                                    print("func cleaned",func)
+                                    print()
+                                i = i + 1 
+                                
+                        else:
+                            print("Parentheses Unbalanced!")
                     
-                    print("Starting",i+1,"integrate")
-                    func = func.replace("**","^").replace("*","")
-                    print("func:",func)
-                    
-                    func = str(func).replace(" ","").replace("^","**").replace("x","*x").replace("y","*y").replace("z","*z")
-                    func = func.replace("-*x","-1*x").replace("-*y","-1*y").replace("-*z","-1*z")
-                    func = func.replace("+*x","+1*x").replace("+*y","+1*y").replace("+*z","+1*z")
-                    func = func.replace("(*x","(1*x").replace("(*y","(1*y").replace("(*z","(1*z")
-                    func = func.replace("(-*x","(-1*x").replace("(-*y","(-1*y").replace("(-*z","(-1*z")
-                    func = func.replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
-                    func = func.replace("(*sin","(sin").replace("(*cos","(cos").replace("(*tan","(tan").replace("(*sec","(sec").replace("(*csc","(csc").replace("(*cot","(cot")
-                    func = func.replace("ln","*ln").replace("log","*log")
-                    func = func.replace("e","*e").replace("(*e","(e").replace("*s*ec","*sec")
-                    func = func.replace("+-","-").replace("-+","-")
-                    func = func.replace("-*","-1*").replace("+*","+1*").replace("/*","/")
-                    func = func.replace("***","**")
-                    print("func fixed:",func)
-                    
-                    if func[0] == "*":
-                        func = "1" + func
-                        print("func fixed, * = [0]:",func)
-                    print("func = ",func)
-                    print("func data type",type(func))
+                    func_list = func.strip().split(" ")
                     print()
-                    func = func.strip().replace("+"," + ").replace("-"," - ")
-                    print("Func spaced out",func)
-                    temp_list = func.strip().split(" ")
-                    print("temp_list:",temp_list)
-                    
-                    k = 0
-                    e_list = []
-                    while k < len(temp_list):
-                        print("k",k)
-                        if temp_list[k].count("e") == 1 and temp_list[k].count(respect) == 1 and temp_list[k].count("s") == 0:
-                                print("found!")
-                                if temp_list[k-1].strip() == "+" or temp_list[k-1].strip() == "-":
-                                    e_list.append(temp_list[k-1])
-                                    temp_list[k-1] = " "
-                                e_list.append(temp_list[k])
-                                temp_list[k] = " "
-                                print("temp_list",temp_list)
-                                print("e_list",e_list)
-                        k = k + 1
+                    print("func_list",func_list)
                     print()
-                    print("loop ended")
-                    print("temp_list",temp_list)
-                    print("e_list",e_list)
                     
-                    func = str(temp_list).replace(" ","").replace("'","").replace("[","").replace("]","").replace(",","").replace("++","+")
-                    print()
-                    print("func:",func)
-                    
-                    if func[-1] == "+" or func[-1] == "-":
-                        func = func[:-1]
-                    
-                    func = func.replace("+"," + ").replace("-"," - ")
-                    print("func before integration",func)
-                    if respect == "x":
-                        func = str(sym.integrate(func,x))
-                        print("Answer x:",func)
-                    elif respect == "y":
-                        func = str(sym.integrate(func,y))
-                        print("Answer y:",func)
-                    elif respect == "z":
-                        func = str(sym.integrate(func,z))
-                        print("Answer z:",func)
-                    
-                    print()
-                    func_display_list = str(func).strip().split(" ")
-                    print("func_display_list",func_display_list)
-                    
-                    u = 0
-                    while u < len(func_display_list):
-                        if func_display_list[u].count("/") > 0:
-                            div_index = func_display_list[u].find("/")
-                            print("Found div sign at: ",div_index)
-                            func_display_list[u] = "(" + func_display_list[u][:div_index] + ")" + func_display_list[u][div_index:]
-                            print("New func_display",func_display_list[u])
-                        u = u + 1
-                    
-                    j = 0
-                    if e_list != []:
-                        while j < len(e_list):
-                            func_display_list.append("+" + e_list[j])
-                            print("func_display_list",func_display_list)
-                            j = j + 1
-                    
-                    if len(func_display_list) > 5 and len(func_display_list) < 12:
+                    #If + or - is first element in list
+                    new_func_list = []
+                    if func_list[0] == "+" or func_list[0] == "-":
                         print("IF")
-                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                        func_display_front_slice = str(func_display_list[:5]).replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ")
-                        print("func_display_front_slice",func_display_front_slice)
+                        i = 0
+                        while i < len(func_list):
+                            if func_list[i] == "+" or func_list[i] == "-":
+                                new_func_list.append(func_list[i] + func_list[i+1])
+                            i = i + 1
+                        print("new_func_list",new_func_list)
+                    #If + or - is second element in list    
+                    elif len(func_list) > 1:
+                        if func_list[1] == "+" or func_list[1] == "-":
+                           print("ELIF")
+                           i = 0
+                           while i < len(func_list):
+                               if func_list[i] == "+" or func_list[i] == "-":
+                                   new_func_list.append(func_list[i] + func_list[i+1])
+                               i = i + 1
+                           print("new_func_list:",new_func_list)
+                           new_func_list = [func_list[0]] + new_func_list
+                           print("new_func_list",new_func_list)
                         
-                        func_display_back_slice = str(func_display_list[5:]).replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ")
-                        print("func_display_back_slice",func_display_back_slice)
-                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
-                        self.ids.list_of_steps.add_widget(Label(text= "∫" * (i+1) + "f" + "(" + respect + ") = " + str(func_display_front_slice).replace("**","^") + " + C",font_size = 50, size_hint_y= None, height=100))
-                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_back_slice).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
-                        self.layouts.append(layout)
-                    
-                    elif len(func_display_list) > 12:
-                        print("ELIF")
-                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                        func_display_front_slice = str(func_display_list[:5]).replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ")
-                        print("func_display_front_slice",func_display_front_slice)
-                        
-                        func_display_mid_slice = str(func_display_list[5:11]).replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ")
-                        print("func_display_mid_slice",func_display_mid_slice)
-                        
-                        func_display_back_slice = str(func_display_list[11:]).replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ")
-                        print("func_display_back_slice",func_display_back_slice)
-                        
-                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
-                        self.ids.list_of_steps.add_widget(Label(text= "∫" * (i+1) + "f" + "(" + respect + ") = " + str(func_display_front_slice).replace("**","^").replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ") ,font_size = 50, size_hint_y= None, height=100))
-                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_mid_slice).replace("**","^").replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - "),font_size = 50, size_hint_y= None, height=100))
-                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_back_slice).replace("**","^").replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ") + " + C",font_size = 50, size_hint_y= None, height=100))
-                        self.layouts.append(layout)
-                    
+                    #If + or - is not apart of list
                     else:
                         print("ELSE")
-                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                        print("func_display_list",func_display_list)
-                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
-                        self.ids.list_of_steps.add_widget(Label(text= "∫" * (i+1) + "f" + "(" + respect + ") = " + str(func_display_list).replace("**","^").replace(" ","").replace("[","").replace("]","").replace("'","").replace(",","").replace("+++","+").replace("++","+").replace("+-","-").replace("+"," + ").replace("-"," - ") + " + C",font_size = 50, size_hint_y= None, height=100))
-                        self.layouts.append(layout)
-                    print("Completed",i+1,"integrate")
-                    print("_________________________________________")
+                        new_func_list.append(func_list[0])
+                        print("new_func_list",new_func_list)
+                        
+                    print()
+                    print("integrate each element and store in empty list")
+                    print()
                     
-                    func = str(func_display_list).replace("**","^").replace("[","").replace("]","").replace("'","").replace(",","").replace("+-","-").replace("+"," + ").replace("-"," - ")
-                    print("Func before loop",func)
-                    i = i + 1
+                    i = 0
+                    while i < len(new_func_list):
+                        #finding e
+                        if new_func_list[i].count("e") > 0 and new_func_list[i].count("s") == 0 and new_func_list[i].count("c") == 0 and new_func_list[i].count("t") == 0:
+                            print()
+                            print("Found e")
+                            carrot_index = new_func_list[i].find("^")
+                            print("carrot_index: ",carrot_index)
+                            exponent_range = new_func_list[i][carrot_index+1:]
+                            print("exponent_range:",exponent_range)
+                            if exponent_range[0] == "x" or exponent_range[0] == "y" or exponent_range[0] == "z":
+                                exponent_range = "1" + exponent_range
+                                print("e^x fixed: ",exponent_range)
+                                new_func_list[i] = new_func_list[i][:carrot_index] + "^" + exponent_range
+                                print("new_func_list[i]:",new_func_list[i])
+                                if new_func_list[i][0] == "*":
+                                    new_func_list[i] = new_func_list[i][1:]
+                                    print("found stray *")
+                                    print("Cleaned:",new_func_list[i])
+                            else:
+                                print("e element okay for integration: ",new_func_list[i])
+                                if new_func_list[i][0] == "*":
+                                    new_func_list[i] = new_func_list[i][1:]
+                                    print("found stray *")
+                                    print("Cleaned:",new_func_list[i])
+                        #finding all other elements
+                        else:
+                            print()
+                            print("Found non-e element:",new_func_list[i])
+                            if new_func_list[i][0] == "*":
+                                new_func_list[i] = new_func_list[i][1:]
+                                print("found stray *")
+                                print("Cleaned:",new_func_list[i])
+                            
+                        i = i + 1
+                        
+                    print()
+                    print("new_func_list with fixed e elements: ",new_func_list)
+                    print()
+                    
+                    answer_integrated = []
+                    #While loop to clean each element
+                    i = 0
+                    while i < len(new_func_list):
+                        print("Cleaning ",new_func_list[i])
+                        new_func_list[i] = new_func_list[i].replace("^","**").replace("x","*x").replace("y","*y").replace("z","*z")
+                        new_func_list[i] = new_func_list[i].replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
+                        new_func_list[i] = new_func_list[i].replace("e","*e").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z")
+                        print("new_func_list[i]: ",new_func_list[i])
+                        
+                        if new_func_list[i][0] == "*":
+                            new_func_list[i] = new_func_list[i][1:]
+                            print("found stray *")
+                            print("Cleaned:",new_func_list[i])
+                        
+                        print()
+                        i = i + 1
+                        
+                    print()
+                    print("new_func_list with cleaned elements: ",new_func_list)
+                    print()
+                        
+                    #Concat all cleaned elements and integrate
+                    #OR while loop to integrate each element and then concat
+                    
+                    func_concat = str(new_func_list).replace("[","").replace("]","").replace("'","").replace(",","").replace(" ","").replace("+"," + ").replace("-"," - ")
+                    print("func_concat: ",func_concat)
+                    print()
+                    if respect == "x":
+                        print("Integrating with respect to X")
+                        func_integrated = str(sym.integrate(str(func_concat),x)).replace("**","^")
+                        print("func_integrated",func_integrated)
+                    elif respect == "y":
+                        print("Integrating with respect to Y")
+                        func_integrated = str(sym.integrate(str(func_concat),y)).replace("**","^")
+                        print("func_integrated",func_integrated)
+                    elif respect == "z":
+                        print("Integrating with respect to Z")
+                        func_integrated = str(sym.integrate(str(func_concat),z)).replace("**","^")
+                        print("func_integrated",func_integrated)
+                    
+                    self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________",font_size = 60, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "∫" * (k+1) + "f" + "(" + respect + ") = " + func_integrated,font_size = 60, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                    
+                    func = func_integrated.replace("**","^").replace("*","")
+                    print("func ready for next loop, func = ",func_integrated)
+                    print()
+                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                    k = k + 1
+                
                 
             else:
                 if int(prime) == 0:
