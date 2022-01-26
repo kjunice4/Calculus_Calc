@@ -29,7 +29,7 @@ Builder.load_string("""
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
-            text: "Derivatives and Integration Calculator"
+            text: "Derivatives, Integration, Limits Calculators"
             on_release:
                 app.root.current = "Menu"
                 root.manager.transition.direction = "left"         
@@ -76,6 +76,7 @@ Builder.load_string("""
                 background_color: 0, 0, 1, 1
                 size_hint_y: None
                 height: 200
+                padding: 10, 10
                 text: "Derivatives Calculator"
                 on_release:
                     app.root.current = "Derivatives"
@@ -86,6 +87,7 @@ Builder.load_string("""
                 background_color: 0, 1, 1, 1
                 size_hint_y: None
                 height: 200
+                padding: 10, 10
                 text: "Integration Calculator"
                 on_release:
                     app.root.current = "Integration"
@@ -93,8 +95,20 @@ Builder.load_string("""
                     
             Button:
                 font_size: 75
+                background_color: 1, 0, 1, 1
                 size_hint_y: None
                 height: 200
+                padding: 10, 10
+                text: "What's new?"
+                on_release:
+                    app.root.current = "updates"
+                    root.manager.transition.direction = "left"
+                    
+            Button:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
                 text: "Visit KSquared-math,LLC ©"
                 on_release:
                     import webbrowser
@@ -113,6 +127,54 @@ Builder.load_string("""
                 height: 1000
                 width: 1000
                 
+""")
+
+Builder.load_string("""
+<updates>
+    id:updates
+    name:"updates"
+    
+    GridLayout:
+        cols: 1
+        padding:10
+        spacing:10
+        size_hint: 1, None
+        width:200
+        height: self.minimum_height
+        
+        Label:
+            font_size: 75
+            size_hint_y: None
+            height: 200
+            padding: 10, 10
+            text: "What's new at KSquared-math?"
+        
+        Button:
+            id: steps
+            text: "Menu"   
+            font_size: 75
+            size_hint_y: None
+            background_color: 0, 0 , 1 , 1
+            height: 200
+            padding: 10, 10
+            on_release:
+                app.root.current = "Menu"
+                root.manager.transition.direction = "right" 
+                
+        Label:
+            font_size: 60
+            size_hint_y: None
+            height: 200
+            padding: 10, 10
+            text: "Derivatives, Integration, Limits Calculators v0.1"
+            
+        Label:
+            font_size: 60
+            size_hint_y: None
+            height: 200
+            padding: 10, 10
+            text: "No new updates as of 1/26/2022"
+            
 """)
 
 #Derivatives Calculator
@@ -718,11 +780,15 @@ class Homepage(Screen):
 class Menu(Screen):
     pass            
 
+class updates(Screen):
+    pass
+
 sm = ScreenManager()
 sm.add_widget(Homepage(name="Homepage"))
 sm.add_widget(Menu(name="Menu"))
 sm.add_widget(Derivatives(name="Derivatives"))     
-sm.add_widget(Integration(name="Integration"))  
+sm.add_widget(Integration(name="Integration"))
+sm.add_widget(updates(name="updates"))
 sm.current = "Homepage"   
 
 
