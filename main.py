@@ -7,7 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy as sym
-from sympy import Symbol, diff, integrate
+from sympy import Limit, Symbol, S, diff, integrate
 
 #Opening Page
 Builder.load_string("""
@@ -25,7 +25,7 @@ Builder.load_string("""
                 root.manager.transition.direction = "left" 
                 
         Button:
-            font_size: 60
+            font_size: 50
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
@@ -95,6 +95,17 @@ Builder.load_string("""
                     
             Button:
                 font_size: 75
+                background_color: 1, 1, 0, 1
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Limits Calculator"
+                on_release:
+                    app.root.current = "Limits"
+                    root.manager.transition.direction = "left"
+                    
+            Button:
+                font_size: 75
                 background_color: 1, 0, 1, 1
                 size_hint_y: None
                 height: 200
@@ -129,6 +140,7 @@ Builder.load_string("""
                 
 """)
 
+#Updates
 Builder.load_string("""
 <updates>
     id:updates
@@ -409,6 +421,146 @@ Builder.load_string("""
                 on_release:
                     list_of_steps.clear_widgets()
                     Integration.Integrate(entry.text + "&" + prime.text + "$" + respect.text)
+                    
+            GridLayout:
+                id: list_of_steps
+                cols: 1
+                size_hint: 1, None
+                height: self.minimum_height   
+
+""")
+
+#Limits
+Builder.load_string("""
+<Limits>
+    id:Limits
+    name:"Limits"
+    
+    ScrollView:
+        name: "Scroll"
+        do_scroll_x: False
+        do_scroll_y: True
+        
+        GridLayout:
+            cols: 1
+            padding:10
+            spacing:10
+            size_hint: 1, None
+            width:200
+            height: self.minimum_height
+            
+            Label:
+                font_size: 75
+                size_hint_y: None
+                height: 200
+                padding: 10, 10
+                text: "Limits Calculator"
+                
+            BoxLayout:
+                cols: 2
+                padding: 10
+                spacing: 10
+                size_hint: 1, None
+                width: 300
+                size_hint_y: None
+                height: self.minimum_height
+                
+                Button:
+                    id: steps
+                    text: "Menu"   
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 0, 0 , 1 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release:
+                        app.root.current = "Menu"
+                        root.manager.transition.direction = "right" 
+                
+                Button:
+                    id: steps
+                    text: "Clear All"   
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 1, 0 , 0 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release:
+                        entry.text = ""
+                        range.text = ""
+                        list_of_steps.clear_widgets()       
+        
+            TextInput:
+                id: entry
+                text: entry.text
+                hint_text: "lim:"
+                multiline: False
+                font_size: 75
+                size_hint_y: None
+                height: 125
+                padding: 10              
+            
+            TextInput:
+                id: range
+                text: range.text
+                hint_text: "x -> n:"
+                multiline: False
+                font_size: 75
+                size_hint_y: None
+                height: 125
+                padding: 10, 10
+                
+            TextInput:
+                id: direction
+                text: direction.text
+                hint_text: "direction: + or -"
+                multiline: False
+                font_size: 75
+                size_hint_y: None
+                height: 125
+                padding: 10, 10
+                input_filter: lambda text, from_undo: text[:1 - len(direction.text)]
+            
+            BoxLayout:
+                cols: 2
+                padding: 10
+                spacing: 10
+                size_hint: 1, None
+                width: 300
+                size_hint_y: None
+                height: self.minimum_height
+                
+                Button:
+                    text: "\u221E"  
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 1, 1, 0 , 1
+                    height: 200
+                    padding: 10, 10
+                    on_release: 
+                        range.text = "\u221E"
+                        
+                Button:
+                    text: "-\u221E"  
+                    font_size: 75
+                    size_hint_y: None
+                    background_color: 0, 1, 1, 1
+                    height: 200
+                    padding: 10, 10
+                    on_release: 
+                        range.text = "-\u221E"
+                    
+            Button:
+                id: steps
+                text: "Limit"   
+                font_size: 75
+                size_hint_y: None
+                background_color: 0, 1, 0 , 1
+                height: 200
+                padding: 10, 10
+                on_release:
+                    list_of_steps.clear_widgets()
+                    Limits.Limit(entry.text + "&" + range.text + "%" + direction.text)
                     
             GridLayout:
                 id: list_of_steps
@@ -778,7 +930,92 @@ class Integration(Screen):
             self.layouts.append(layout)        
 
 
+class Limits(Screen):
+    sm = ScreenManager()
+
+    def __init__(self, **kwargs):
+        super(Limits, self).__init__(**kwargs)
+        Window.bind(on_keyboard=self._key_handler)
+
+    def _key_handler(self, instance, key, *args):
+        if key == 27:
+            self.set_previous_screen()
+            return True
+
+    def set_previous_screen(self):
+        if sm.current != "Homepage":
+            sm.transition.direction = 'right'
+            sm.current = "Menu"    
+
+    layouts = []
+    def Limit(self,entry):
+        layout = GridLayout(cols=1,size_hint_y= None)
+        self.ids.list_of_steps.add_widget(layout)
+        self.layouts.append(layout)
+        print("~~~~~~~~~~~~~~~~~~~~")
+        print("LIMIT")
         
+        try:
+            print()
+            print("Entry",entry)
+            
+            amp = entry.find("&")
+            
+            perc = entry.find("%")
+            
+            func = entry[:amp]
+            print("func: ",func)
+            
+            func = func.replace("^","**").replace("x","*x")
+            func = func.replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
+            func = func.replace("e","*e").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z")
+            
+            limit = entry[amp+1:perc]
+            print("limit: ",limit)
+            
+            direction = entry[perc+1:]
+            print("direction",direction)
+            
+            if limit == "∞":
+                print("TO + INFINITY AND BEYONDDDD")
+                limit = S.Infinity
+                print("Limit: ",limit)
+                
+                x = Symbol("x")
+                
+                L = Limit(func,x,limit,dir=str(direction))
+                
+                Answer = L.doit()
+                
+                print()
+                print("Answer: ",Answer)
+            elif limit == "-∞":
+                print("TO - INFINITY AND BEYONDDDD")
+                limit = S.NegativeInfinity
+                print("Limit: ",limit)
+                x = Symbol("x")
+                L = Limit(func,x,limit,dir=direction)
+                Answer = L.doit()
+                print()
+                print("Answer: ",Answer)
+                
+            else:
+                x = Symbol("x")
+                L = Limit(func,x,limit,dir=direction)
+                Answer = L.doit()
+                print()
+                print("Answer: ",Answer)
+                
+            self.ids.list_of_steps.add_widget(Label(text= "The Limit of :" ,font_size = 60, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "Lim (x -> " + str(limit) + ") " + direction + " : " + str(func).replace("**","^") ,font_size = 60, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "=" ,font_size = 60, size_hint_y= None, height=100))
+            self.ids.list_of_steps.add_widget(Label(text= "Lim (x -> " + str(limit) + ") " + direction + " : "  + str(Answer).replace("**","^") ,font_size = 60, size_hint_y= None, height=100))
+            self.layouts.append(layout)
+            
+        except Exception:
+            self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
+            self.layouts.append(layout)     
+            
 class Homepage(Screen):
     pass            
 
@@ -793,9 +1030,9 @@ sm.add_widget(Homepage(name="Homepage"))
 sm.add_widget(Menu(name="Menu"))
 sm.add_widget(Derivatives(name="Derivatives"))     
 sm.add_widget(Integration(name="Integration"))
+sm.add_widget(Limits(name="Limits"))
 sm.add_widget(updates(name="updates"))
 sm.current = "Homepage"   
-
 
 class Calculus_Calculator(App):
     def build(app):
