@@ -966,9 +966,14 @@ class Limits(Screen):
             func = entry[:amp]
             print("func: ",func)
             
-            func = func.replace("^","**").replace("x","*x")
+            func = func.replace("^","**").replace("x","*x").replace("***","**")
             func = func.replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
             func = func.replace("e","*e").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z")
+            print("func cleaned: ",func)
+            
+            if func[0] == "*":
+                func = func[1:]
+                print("func cleaned: ",func)
             
             limit = entry[amp+1:perc]
             print("limit: ",limit)
@@ -980,7 +985,7 @@ class Limits(Screen):
                 print("TO + INFINITY AND BEYONDDDD")
                 limit = S.Infinity
                 print("Limit: ",limit)
-                
+                print("func: ",func)
                 x = Symbol("x")
                 
                 L = Limit(func,x,limit,dir=str(direction))
@@ -993,6 +998,8 @@ class Limits(Screen):
                 print("TO - INFINITY AND BEYONDDDD")
                 limit = S.NegativeInfinity
                 print("Limit: ",limit)
+                print("func: ",func)
+                
                 x = Symbol("x")
                 L = Limit(func,x,limit,dir=direction)
                 Answer = L.doit()
@@ -1000,6 +1007,7 @@ class Limits(Screen):
                 print("Answer: ",Answer)
                 
             else:
+                print("func: ",func)
                 x = Symbol("x")
                 L = Limit(func,x,limit,dir=direction)
                 Answer = L.doit()
@@ -1014,7 +1022,7 @@ class Limits(Screen):
             
         except Exception:
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 60, size_hint_y= None, height=100))
-            self.layouts.append(layout)     
+            self.layouts.append(layout)
             
 class Homepage(Screen):
     pass            
