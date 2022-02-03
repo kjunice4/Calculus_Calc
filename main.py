@@ -586,6 +586,7 @@ class Derivatives(Screen):
         if sm.current != "Homepage":
             sm.transition.direction = 'right'
             sm.current = "Menu"   
+            
     layouts = []
     def derive(self,entry):
         layout = GridLayout(cols=1,size_hint_y= None)
@@ -906,9 +907,41 @@ class Integration(Screen):
                         func_integrated = str(sym.integrate(str(func_concat),z)).replace("**","^")
                         print("func_integrated",func_integrated)
                     
-                    self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________",font_size = 60, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text= "∫" * (k+1) + "f" + "(" + respect + ") = " + func_integrated,font_size = 60, size_hint_y= None, height=100))
-                    self.layouts.append(layout)
+                    func_integrated_list = func_integrated.split(" ")
+                    print("func_integrated_list",func_integrated_list)
+                    
+                    func_integrated_list_empty = []
+                    j = 0
+                    while j < len(func_integrated_list):
+                        if func_integrated_list != "+" or func_integrated_list != "-":
+                            print("found non +-")
+                            if func_integrated_list[j].count("/") > 0:
+                                print("if")
+                                div_sign_index = func_integrated_list[j].find("/")
+                                print("div_sign_index",div_sign_index)
+                                func_integrated_list_to_append = "(" + func_integrated_list[j][:div_sign_index] + ")" + func_integrated_list[j][div_sign_index:]
+                                print("func_integrated_list_to_append",func_integrated_list_to_append)
+                                func_integrated_list_empty.append(func_integrated_list_to_append)
+                            else:
+                                print("else")
+                                func_integrated_list_empty.append(func_integrated_list[j])
+                        else:
+                            func_integrated_list_empty.append(func_integrated_list[j])
+                        j = j + 1
+                    print("func_integrated_list_empty",func_integrated_list_empty)
+                        
+                            
+                    if len(func_integrated_list_empty) > 5:
+                        func_integrated_list_empty_to_five = str(func_integrated_list_empty[:5]).replace("[","").replace("]","").replace(",","").replace("'","")
+                        print("func_integrated_list_empty_to_five",func_integrated_list_empty_to_five)
+                        
+                        func_integrated_list_empty_five_out = str(func_integrated_list_empty[5:]).replace("[","").replace("]","").replace(",","").replace("'","")
+                        print("func_integrated_list_empty_five_out",func_integrated_list_empty_five_out)
+                    
+                        self.ids.list_of_steps.add_widget(Label(text= "_________________________________________________________________",font_size = 60, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= "∫" * (k+1) + "f" + "(" + respect + ") = " + func_integrated_list_empty_to_five,font_size = 60, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= func_integrated_list_empty_five_out,font_size = 60, size_hint_y= None, height=100))
+                        self.layouts.append(layout)
                     
                     func = func_integrated.replace("**","^").replace("*","")
                     print("func ready for next loop, func = ",func_integrated)
@@ -968,7 +1001,7 @@ class Limits(Screen):
             
             func = func.replace("^","**").replace("x","*x").replace("***","**")
             func = func.replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
-            func = func.replace("e","*e").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z")
+            func = func.replace("e","*e").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z").replace("/*","/")
             print("func cleaned: ",func)
             
             if func[0] == "*":
