@@ -1009,9 +1009,9 @@ class Integration(Screen):
                     k = k + 1
                     
             if value != "Nothing":
-                print("func = ",func)
+                print("func = ",func_integrated)
                 
-                func_a = str(func).replace(respect,a).replace("sqrt","*math.sqrt").replace("pi","*math.pi").replace("^","**").replace("sin","*math.sin").replace("cos","*math.cos").replace("tan","*math.tan").replace("csc","*math.csc").replace("sec","*math.sec").replace("cot","*math.cot").replace("log","*math.log").replace("e","*math.e").replace("smath.ec","*math.sec").replace("math.smath.secc","*math.sec").replace("-*","-").replace(" *m"," m").replace("(*m","(m")
+                func_a = str(func_integrated).replace(respect,a).replace("sqrt","*math.sqrt").replace("pi","*math.pi").replace("^","**").replace("sin","*math.sin").replace("cos","*math.cos").replace("tan","*math.tan").replace("csc","*math.csc").replace("sec","*math.sec").replace("cot","*math.cot").replace("log","*math.log").replace("e","*math.e").replace("smath.ec","*math.sec").replace("math.smath.secc","*math.sec").replace("-*","-").replace(" *m"," m").replace("(*m","(m")
                 print("func_a replaced respect = ",func_a)
                 
                 if func_a[:2] == "*m":
@@ -1022,7 +1022,7 @@ class Integration(Screen):
                 print("func_a_evaled = ",func_a_evaled)
                 
                 self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "∫" * (i+1) + "f" + "(" + a + ") = " + "{:,.2f}".format(float(str(func_a_evaled))),font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "∫f" + "(" + a + ") = " + "{:,.2f}".format(float(str(func_a_evaled))),font_size = 50, size_hint_y= None, height=100))
                 self.layouts.append(layout)
                 
                 func_b = str(func).replace(respect,b).replace("sqrt","*math.sqrt").replace("pi","*math.pi").replace("^","**").replace("sin","*math.sin").replace("cos","*math.cos").replace("tan","*math.tan").replace("csc","*math.csc").replace("sec","*math.sec").replace("cot","*math.cot").replace("log","*math.log").replace("e","*math.e").replace("smath.ec","*math.sec").replace("math.smath.secc","*math.sec").replace("-*","-").replace(" *m"," m").replace("(*m","(m")
@@ -1036,7 +1036,7 @@ class Integration(Screen):
                 print("func_b_evaled = ",func_b_evaled)
 
                 self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "∫" * (i+1) + "f" + "(" + b + ") = " + "{:,.2f}".format(float(str(func_b_evaled))),font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "∫f" + "(" + b + ") = " + "{:,.2f}".format(float(str(func_b_evaled))),font_size = 50, size_hint_y= None, height=100))
                 
                 a = str(eval(a.replace("sqrt","math.sqrt").replace("pi","math.pi").replace("ln","math.log").replace("log","math.log").replace("e","math.e").replace("^","**")))
                     
@@ -1047,7 +1047,7 @@ class Integration(Screen):
                 
                 if float(a) < float(b):
                     self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text= "∫" * (i+1) + "f" + "(" + b + ") - " + "∫" * (i+1) + "f" + "(" + a + ") =",font_size = 50, size_hint_y= None, height=100))
+                    self.ids.list_of_steps.add_widget(Label(text= "∫f" + "(" + b + ") - " + "∫" * (i+1) + "f" + "(" + a + ") =",font_size = 50, size_hint_y= None, height=100))
                     self.ids.list_of_steps.add_widget(Label(text= "{:,.2f}".format(float(str(func_b_evaled))) + " - " + "{:,.2f}".format(float(str(func_a_evaled))) + " =",font_size = 50, size_hint_y= None, height=100))
                     
                     integral_evaled = "{:,.2f}".format(float(str(eval(str("{:,.2f}".format(float(str(func_b_evaled))) + " - " + "{:,.2f}".format(float(str(func_a_evaled))))))))
