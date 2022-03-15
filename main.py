@@ -6,7 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
-from sympy import Limit, Symbol, S, diff, integrate, solve, diff
+from sympy import Limit, Symbol, S, diff, integrate, solve
 import math
 
 #Opening Page
