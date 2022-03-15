@@ -678,6 +678,8 @@ class Derivatives(Screen):
                     self.ids.list_of_steps.add_widget(Label(text= "before:" + str(func) ,font_size = 50, size_hint_y= None, height=100))
                     print("func = ",func)
                     print("func data type",type(func))
+                    self.ids.list_of_steps.add_widget(Label(text= "Trying to derive" ,font_size = 50, size_hint_y= None, height=100))
+
                     func = str(sympy.diff(str(func),str(respect)))
                     print("Answer:",func)
                     self.ids.list_of_steps.add_widget(Label(text= "after; " + str(func) ,font_size = 50, size_hint_y= None, height=100))
