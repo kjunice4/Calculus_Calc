@@ -6,8 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
-import sympy
-from sympy import Limit, Symbol, S, diff, integrate, solve, Derivative
+from sympy import Limit, Symbol, S, diff, integrate, solve
 import math
 
 #Opening Page
@@ -678,9 +677,8 @@ class Derivatives(Screen):
                     print("func = ",func)
                     print("func data type",type(func))
 
-                    func = str(diff(str(func),str(respect)))
+                    func = str(diff(func,respect))
                     print("Answer:",func)
-                    self.ids.list_of_steps.add_widget(Label(text= "after; " + str(func) ,font_size = 50, size_hint_y= None, height=100))
 
                     print()
                     func_display_list = str(func).strip().split(" ")
