@@ -6,8 +6,7 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
-import sympy as sym
-from sympy import Limit, Symbol, S, diff, integrate, solve
+from sympy import Limit, Symbol, S, diff, integrate, solve, diff
 import math
 
 #Opening Page
@@ -642,9 +641,9 @@ class Derivatives(Screen):
             if value == "":
                 value = "Nothing"
             
-            x = sym.Symbol(respect)
-            y = sym.Symbol(respect)
-            z = sym.Symbol(respect)
+            x = Symbol(respect)
+            y = Symbol(respect)
+            z = Symbol(respect)
             
             if int(prime) > 0 and str(respect) != "":
                 self.ids.list_of_steps.add_widget(Label(text= "f(" + respect + ") = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z").replace("+"," + ").replace("-"," - ").replace("***","**") ,font_size = 50, size_hint_y= None, height=100))
@@ -670,14 +669,14 @@ class Derivatives(Screen):
                     func = func.replace("+-","-").replace("-+","-")
                     func = func.replace("-*","-1*").replace("+*","+1*").replace("/*","/")
                     func = func.replace("***","**")
-                    print("func fixed:",func)
+                    print("func filtered:",func)
                     
                     if func[0] == "*":
                         func = "1" + func
                         print("func fixed, * = [0]:",func)
                     print("func = ",func)
                     print("func data type",type(func))
-                    func = str(sym.diff(func,respect))
+                    func = str(diff(func,respect))
                     print("Answer:",func)
                     
                     print()
@@ -805,9 +804,9 @@ class Integration(Screen):
                 b = value[comma+1:]
                 print("b = ",b)
             
-            x = sym.Symbol("x")
-            y = sym.Symbol("y")
-            z = sym.Symbol("z")
+            x = Symbol("x")
+            y = Symbol("y")
+            z = Symbol("z")
             
             if int(prime) > 0 and str(respect) != "":
                 self.ids.list_of_steps.add_widget(Label(text= "f(" + respect + ") = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z").replace("-"," - ").replace("+"," + ").replace("***","**") ,font_size = 50, size_hint_y= None, height=100))
@@ -951,15 +950,15 @@ class Integration(Screen):
                     print()
                     if respect == "x":
                         print("Integrating with respect to X")
-                        func_integrated = str(sym.integrate(str(func_concat),x)).replace("**","^")
+                        func_integrated = str(integrate(str(func_concat),x)).replace("**","^")
                         print("func_integrated",func_integrated)
                     elif respect == "y":
                         print("Integrating with respect to Y")
-                        func_integrated = str(sym.integrate(str(func_concat),y)).replace("**","^")
+                        func_integrated = str(integrate(str(func_concat),y)).replace("**","^")
                         print("func_integrated",func_integrated)
                     elif respect == "z":
                         print("Integrating with respect to Z")
-                        func_integrated = str(sym.integrate(str(func_concat),z)).replace("**","^")
+                        func_integrated = str(integrate(str(func_concat),z)).replace("**","^")
                         print("func_integrated",func_integrated)
                     
                     func_integrated_list = func_integrated.split(" ")
