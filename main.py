@@ -674,11 +674,13 @@ class Derivatives(Screen):
                     if func[0] == "*":
                         func = "1" + func
                         print("func fixed, * = [0]:",func)
+                    self.ids.list_of_steps.add_widget(Label(text= "before:" + str(func) ,font_size = 50, size_hint_y= None, height=100))
                     print("func = ",func)
                     print("func data type",type(func))
                     func = str(diff(func,respect))
                     print("Answer:",func)
-                    
+                    self.ids.list_of_steps.add_widget(Label(text= "after; " + str(func) ,font_size = 50, size_hint_y= None, height=100))
+
                     print()
                     func_display_list = str(func).strip().split(" ")
                     print("func_display_list",func_display_list)
@@ -718,6 +720,8 @@ class Derivatives(Screen):
                         print("ELSE")
                         print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
                         print("func_display_list",func_display_list)
+                        self.ids.list_of_steps.add_widget(Label(text= "ELSE" ,font_size = 50, size_hint_y= None, height=100))
+
                         self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
                         self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * (i+1) + "(" + respect + ") = " + str(func).replace("**","^"),font_size = 50, size_hint_y= None, height=100))
                         self.layouts.append(layout)
