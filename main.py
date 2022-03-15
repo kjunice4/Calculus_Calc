@@ -7,7 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.window import Window
 import sympy
-from sympy import Limit, Symbol, S, diff, integrate, solve
+from sympy import Limit, Symbol, S, diff, integrate, solve, Derivative
 import math
 
 #Opening Page
@@ -675,12 +675,10 @@ class Derivatives(Screen):
                     if func[0] == "*":
                         func = "1" + func
                         print("func fixed, * = [0]:",func)
-                    self.ids.list_of_steps.add_widget(Label(text= "before:" + str(func) ,font_size = 50, size_hint_y= None, height=100))
                     print("func = ",func)
                     print("func data type",type(func))
-                    self.ids.list_of_steps.add_widget(Label(text= "Trying to derive" ,font_size = 50, size_hint_y= None, height=100))
 
-                    func = str(sympy.diff(str(func),str(respect)))
+                    func = str(diff(str(func),str(respect)))
                     print("Answer:",func)
                     self.ids.list_of_steps.add_widget(Label(text= "after; " + str(func) ,font_size = 50, size_hint_y= None, height=100))
 
