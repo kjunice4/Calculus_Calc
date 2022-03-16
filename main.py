@@ -620,17 +620,16 @@ class Derivatives(Screen):
         print("DERIVATE")
         
         try:
-            print("entry:",entry)
-            
+            print("Entry",entry)
             amp = entry.find("&")
             dollar = entry.find("$")
             percent_sign = entry.find("%")
             
             func = entry[:amp]
-            print("func:",func)       
+            print("func",func)       
             
             prime = entry[amp+1:dollar]
-            print("prime:",prime)
+            print("Prime:",prime)
             if prime == "":
                 prime = 0
             
@@ -641,13 +640,6 @@ class Derivatives(Screen):
             print("value:",value)
             if value == "":
                 value = "Nothing"
-                print("value:",value)
-            
-            print()
-            print("_______________________________________")
-            print()
-            
-            self.ids.list_of_steps.add_widget(Label(text= "Derive '" + str(func).replace("**","^") + "' " + str(prime) + " time(s)"  ,font_size = 50, size_hint_y= None, height=100))
             
             if respect == "x":
                 respect = Symbol(respect)
@@ -661,41 +653,108 @@ class Derivatives(Screen):
             else:
                 print("Invalid Respect Input" )
             
-            print()
-            print("_______________________________________")
-            print()
-            
-            if str(respect) == "x" or str(respect) == "y" or str(respect) == "z":
-            
-                i = 0
+            if int(prime) > 0 and str(respect) != "":
+                self.ids.list_of_steps.add_widget(Label(text= "f(" + str(respect) + ") = " + str(func).replace("**","^").replace("*x","x").replace("*y","y").replace("*z","z").replace("+"," + ").replace("-"," - ").replace("***","**") ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "Derive " + str(prime) + " time(s) with respect to " + str(respect),font_size = 50, size_hint_y= None, height=100))
+                self.layouts.append(layout)
+                
+                print("_________________________________________")
+                
+                i = 0 #     2sin(2x)^2+3x^3+e^x-2ln(3x)
                 while i < int(prime):
-                    print("#",i+1,"derivation")
                     
-                    func = diff(str(func),str(respect))
-                    print("func derived = ", func)
-                    self.ids.list_of_steps.add_widget(Label(text= "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" ,font_size = 50, size_hint_y= None, height=100))
-                    self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * (i+1) + "(" + str(respect) + ") = " + str(func).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
-                    self.layouts.append(layout)
+                    print("Starting",i+1,"derivative")
+                    func = func.replace("**","^").replace("*","")
+                    print("func:",func)
+                    func = str(func).replace(" ","").replace("^","**").replace("x","*x").replace("y","*y").replace("z","*z")
+                    func = func.replace("-*x","-1*x").replace("-*y","-1*y").replace("-*z","-1*z")
+                    func = func.replace("+*x","+1*x").replace("+*y","+1*y").replace("+*z","+1*z")
+                    func = func.replace("(*x","(1*x").replace("(*y","(1*y").replace("(*z","(1*z")
+                    func = func.replace("(-*x","(-1*x").replace("(-*y","(-1*y").replace("(-*z","(-1*z")
+                    func = func.replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
+                    func = func.replace("ln","*ln").replace("log","*log")
+                    func = func.replace("e","*e").replace("(*e","(e")
+                    func = func.replace("+-","-").replace("-+","-")
+                    func = func.replace("-*","-1*").replace("+*","+1*").replace("/*","/")
+                    func = func.replace("***","**")
+                    print("func filtered:",func)
                     
+                    if func[0] == "*":
+                        func = "1" + func
+                        print("func fixed, * = [0]:",func)
+                    print("func = ",func)
+                    print("func data type",type(func))
+
+                    func = str(diff(func,str(respect)))
+                    print("Answer:",func)
+
                     print()
-                    print("_______________________________________")
-                    print()
+                    func_display_list = str(func).strip().split(" ")
+                    print("func_display_list",func_display_list)
+                    
+                    if len(func_display_list) > 5 and len(func_display_list) < 12:
+                        print("IF")
+                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                        func_display_front_slice = str(func_display_list[:5]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_front_slice",func_display_front_slice)
+                        
+                        func_display_back_slice = str(func_display_list[5:]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_back_slice",func_display_back_slice)
+                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * (i+1) + "(" + str(respect) + ") = " + str(func_display_front_slice).replace("**","^"),font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_back_slice).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
+                        self.layouts.append(layout)
+                    
+                    elif len(func_display_list) > 12:
+                        print("ELIF")
+                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                        func_display_front_slice = str(func_display_list[:5]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_front_slice",func_display_front_slice)
+                        
+                        func_display_mid_slice = str(func_display_list[5:11]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_mid_slice",func_display_mid_slice)
+                        
+                        func_display_back_slice = str(func_display_list[11:]).replace("[","").replace("]","").replace("'","").replace(",","")
+                        print("func_display_back_slice",func_display_back_slice)
+                        
+                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * (i+1) + "(" + str(respect) + ") = " + str(func_display_front_slice).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_mid_slice).replace("**","^"),font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= str(func_display_back_slice).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
+                        self.layouts.append(layout)
+                    
+                    else:
+                        print("ELSE")
+                        print("~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                        print("func_display_list",func_display_list)
+                        self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
+                        self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * (i+1) + "(" + str(respect) + ") = " + str(func).replace("**","^"),font_size = 50, size_hint_y= None, height=100))
+                        self.layouts.append(layout)
+                        
+                    print("Completed",i+1,"derivative")
+                    print("_________________________________________")
                     i = i + 1
                     
-            else:
-                self.ids.list_of_steps.add_widget(Label(text= "Invalid Respect Input"  ,font_size = 50, size_hint_y= None, height=100))
-                self.layouts.append(layout)
-            
-            if str(value) != "Nothing":
-                self.ids.list_of_steps.add_widget(Label(text= "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~" ,font_size = 50, size_hint_y= None, height=100))
-                self.ids.list_of_steps.add_widget(Label(text= "Respects value = " + str(value) ,font_size = 50, size_hint_y= None, height=100))
-                print("func =",func)
-                print("f(",value,")=",str(func).replace(str(respect),str(value)))
-                self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * int(prime) + "(" + str(value) + ") = "  + str(func).replace(str(respect),str(value)).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
-                func_evaled = eval(str(func).replace(str(respect),str(value)).replace("sqrt","math.sqrt").replace("pi","math.pi").replace("^","**").replace("sin","math.sin").replace("cos","math.cos").replace("tan","math.tan").replace("csc","math.csc").replace("sec","math.sec").replace("cot","math.cot").replace("log","math.log").replace("e","math.e").replace("smath.ec","math.sec").replace("math.smath.secc","math.sec"))
-                print('func_evaled =',func_evaled)
-                self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * int(prime) + "(" + str(value) + ") = "  + str(func_evaled).replace("**","^") ,font_size = 50, size_hint_y= None, height=100))
+            if value != "Nothing":
+                print("func = ",func)
                 
+                func = str(func).replace(str(respect),str(value)).replace("sqrt","math.sqrt").replace("pi","math.pi").replace("^","**").replace("sin","math.sin").replace("cos","math.cos").replace("tan","math.tan").replace("csc","math.csc").replace("sec","math.sec").replace("cot","math.cot").replace("log","math.log").replace("e","math.e").replace("smath.ec","math.sec").replace("math.smath.secc","math.sec")
+                print("func replaced x = ",func)
+                
+                func_evaled = eval(str(func))
+                print("func_evaled = ",func_evaled)
+                
+                self.ids.list_of_steps.add_widget(Label(text= "-----------------------------------------------------------------------------------------------" ,font_size = 50, size_hint_y= None, height=100))
+                self.ids.list_of_steps.add_widget(Label(text= "f" + "'" * (i) + "(" + value + ") = " + str(func_evaled),font_size = 50, size_hint_y= None, height=100))
+                self.layouts.append(layout)
+                
+            else:
+                if int(prime) == 0:
+                    self.ids.list_of_steps.add_widget(Label(text= "Prime must be greater than 0!" ,font_size = 50, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
+                elif str(respect) == "":
+                    self.ids.list_of_steps.add_widget(Label(text= "Respect must be entered" ,font_size = 50, size_hint_y= None, height=100))
+                    self.layouts.append(layout)
             
         except Exception:
             self.ids.list_of_steps.add_widget(Label(text= "Invalid Input" ,font_size = 50, size_hint_y= None, height=100))
