@@ -39,7 +39,7 @@ Builder.load_string("""
             background_color: 0, 0 , 0 , 1
             size_hint_y: None
             height: 200
-            text: "KSquared-math,LLC © : Calculus Calculators"
+            text: "KSquared-Mathematics : Calculus Calculators"
             on_release:
                 app.root.current = "Menu"
                 root.manager.transition.direction = "left"                 
@@ -121,20 +121,20 @@ Builder.load_string("""
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "Visit KSquared-math,LLC ©"
+                text: "Visit KSquared-Mathematics"
                 on_release:
                     import webbrowser
-                    webbrowser.open('https://kevinjunice.wixsite.com/ksquaredllc/subscribe')
+                    webbrowser.open('https://www.ksquaredmathematics.com/subscribe') 
                     
             Label:
                 font_size: 75
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "Share KSquared-math,LLC ©"
+                text: "Share KSquared-Mathematics"
                     
             Image:
-                source: 'KSquared_QR_code.png'
+                source: 'KSquared_QR.png'
                 size_hint_y: None
                 height: 1000
                 width: 1000
@@ -165,7 +165,7 @@ Builder.load_string("""
                 size_hint_y: None
                 height: 200
                 padding: 10, 10
-                text: "What's new at KSquared-math?"
+                text: "What's new at KSquared-Mathematics?"
             
             Button:
                 id: steps
@@ -662,7 +662,7 @@ class Derivatives(Screen):
                     func = func.replace("(-*x","(-1*x").replace("(-*y","(-1*y").replace("(-*z","(-1*z")
                     func = func.replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
                     func = func.replace("ln","*ln").replace("log","*log")
-                    func = func.replace("e","*e").replace("(*e","(e")
+                    func = func.replace("e**","*e**").replace("(*e**","(e**")
                     func = func.replace("+-","-").replace("-+","-")
                     func = func.replace("-*","-1*").replace("+*","+1*").replace("/*","/")
                     func = func.replace("***","**")
@@ -916,7 +916,7 @@ class Integration(Screen):
                         print("Cleaning ",new_func_list[i])
                         new_func_list[i] = new_func_list[i].replace("^","**").replace("x","*x").replace("y","*y").replace("z","*z")
                         new_func_list[i] = new_func_list[i].replace("sin","*sin").replace("cos","*cos").replace("tan","*tan").replace("sec","*sec").replace("csc","*csc").replace("cot","*cot")
-                        new_func_list[i] = new_func_list[i].replace("e","*e").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z")
+                        new_func_list[i] = new_func_list[i].replace("e**","*e**").replace("(*e**","(e**").replace("-*","-").replace("+*","+").replace("(*x","(x").replace("(*y","(y").replace("(*z","(z")
                         print("new_func_list[i]: ",new_func_list[i])
                         
                         if new_func_list[i][0] == "*":
