@@ -274,7 +274,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10              
             
             TextInput:
@@ -284,7 +284,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10            
                 input_filter: lambda text, from_undo: text[:2 - len(prime.text)]
                 
@@ -295,7 +295,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10  
                 input_filter: lambda text, from_undo: text[:1 - len(respect.text)]
                 
@@ -306,7 +306,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10  
                 
             BoxLayout:
@@ -407,7 +407,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10              
             
             TextInput:
@@ -417,7 +417,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10              
                 input_filter: lambda text, from_undo: text[:2 - len(prime.text)]
                 
@@ -428,7 +428,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10  
                 input_filter: lambda text, from_undo: text[:1 - len(respect.text)]
                 
@@ -439,7 +439,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10  
                 
                     
@@ -531,7 +531,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10              
             
             TextInput:
@@ -541,7 +541,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10, 10
                 
             TextInput:
@@ -551,7 +551,7 @@ Builder.load_string("""
                 multiline: False
                 font_size: '20sp'
                 size_hint_y: None
-                height: '20sp'
+                height: 200
                 padding: 10, 10
                 input_filter: lambda text, from_undo: text[:1 - len(direction.text)]
             
